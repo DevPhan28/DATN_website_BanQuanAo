@@ -1,11 +1,38 @@
 import mongoose from "mongoose";
 
+const variantSchema = new mongoose.Schema({
+  size: {
+    type: String,
+    required: true,
+  },
+  color: {
+    type: String,
+    required: true,
+  },
+  price: {
+    type: Number,
+    required: true,
+    default: 0,
+  },
+  countInStock: {
+    type: Number,
+    required: true,
+    default: 0,
+  },
+  sku: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+});
+
+
 const productSchema = new mongoose.Schema(
   {
     name: {
       type: String,
       required: true,
-      lowcase: true,
+      lowercase: true,
     },
     slug: {
       type: String,
@@ -45,7 +72,9 @@ const productSchema = new mongoose.Schema(
     tags: {
       type: Array,
     },
+    variants: [variantSchema],
   },
   { timestamps: true, versionKey: false }
 );
+
 export default mongoose.model("Product", productSchema);

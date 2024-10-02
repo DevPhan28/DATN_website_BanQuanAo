@@ -20,6 +20,7 @@ import { Route as LayoutIndexImport } from './routes/_layout/index'
 import { Route as DashboardSetttingImport } from './routes/dashboard/settting'
 import { Route as DashboardLayoutImport } from './routes/dashboard/_layout'
 import { Route as LayoutCheckoutImport } from './routes/_layout/checkout'
+import { Route as LayoutCartImport } from './routes/_layout/cart'
 import { Route as LayoutAboutImport } from './routes/_layout/about'
 import { Route as DashboardLayoutIndexImport } from './routes/dashboard/_layout/index'
 
@@ -69,6 +70,11 @@ const LayoutCheckoutRoute = LayoutCheckoutImport.update({
   getParentRoute: () => LayoutRoute,
 } as any)
 
+const LayoutCartRoute = LayoutCartImport.update({
+  path: '/cart',
+  getParentRoute: () => LayoutRoute,
+} as any)
+
 const LayoutAboutRoute = LayoutAboutImport.update({
   path: '/about',
   getParentRoute: () => LayoutRoute,
@@ -109,6 +115,13 @@ declare module '@tanstack/react-router' {
       path: '/about'
       fullPath: '/about'
       preLoaderRoute: typeof LayoutAboutImport
+      parentRoute: typeof LayoutImport
+    }
+    '/_layout/cart': {
+      id: '/_layout/cart'
+      path: '/cart'
+      fullPath: '/cart'
+      preLoaderRoute: typeof LayoutCartImport
       parentRoute: typeof LayoutImport
     }
     '/_layout/checkout': {
@@ -160,12 +173,14 @@ declare module '@tanstack/react-router' {
 
 interface LayoutRouteChildren {
   LayoutAboutRoute: typeof LayoutAboutRoute
+  LayoutCartRoute: typeof LayoutCartRoute
   LayoutCheckoutRoute: typeof LayoutCheckoutRoute
   LayoutIndexRoute: typeof LayoutIndexRoute
 }
 
 const LayoutRouteChildren: LayoutRouteChildren = {
   LayoutAboutRoute: LayoutAboutRoute,
+  LayoutCartRoute: LayoutCartRoute,
   LayoutCheckoutRoute: LayoutCheckoutRoute,
   LayoutIndexRoute: LayoutIndexRoute,
 }
@@ -204,6 +219,7 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
   '/about': typeof LayoutAboutRoute
+  '/cart': typeof LayoutCartRoute
   '/checkout': typeof LayoutCheckoutRoute
   '/dashboard': typeof DashboardLayoutRouteWithChildren
   '/dashboard/settting': typeof DashboardSetttingRoute
@@ -215,6 +231,7 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
   '/about': typeof LayoutAboutRoute
+  '/cart': typeof LayoutCartRoute
   '/checkout': typeof LayoutCheckoutRoute
   '/dashboard': typeof DashboardLayoutIndexRoute
   '/dashboard/settting': typeof DashboardSetttingRoute
@@ -227,6 +244,7 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
   '/_layout/about': typeof LayoutAboutRoute
+  '/_layout/cart': typeof LayoutCartRoute
   '/_layout/checkout': typeof LayoutCheckoutRoute
   '/dashboard': typeof DashboardRouteWithChildren
   '/dashboard/_layout': typeof DashboardLayoutRouteWithChildren
@@ -242,6 +260,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/register'
     | '/about'
+    | '/cart'
     | '/checkout'
     | '/dashboard'
     | '/dashboard/settting'
@@ -252,6 +271,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/register'
     | '/about'
+    | '/cart'
     | '/checkout'
     | '/dashboard'
     | '/dashboard/settting'
@@ -262,6 +282,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/register'
     | '/_layout/about'
+    | '/_layout/cart'
     | '/_layout/checkout'
     | '/dashboard'
     | '/dashboard/_layout'
@@ -307,6 +328,7 @@ export const routeTree = rootRoute
       "filePath": "_layout.tsx",
       "children": [
         "/_layout/about",
+        "/_layout/cart",
         "/_layout/checkout",
         "/_layout/"
       ]
@@ -319,6 +341,10 @@ export const routeTree = rootRoute
     },
     "/_layout/about": {
       "filePath": "_layout/about.tsx",
+      "parent": "/_layout"
+    },
+    "/_layout/cart": {
+      "filePath": "_layout/cart.tsx",
       "parent": "/_layout"
     },
     "/_layout/checkout": {
