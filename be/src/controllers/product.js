@@ -30,13 +30,26 @@ export const getProductById = async (req, res) => {
 
 export const addProduct = async (req, res) => {
   try {
-    const data = await Product(req.body).save();
+    // Giả sử req.body có một trường variants chứa danh sách các biến thể
+    const { variants, ...productData } = req.body;
+    // Tính tổng countInStock từ các biến thể
+    const totalCountInStock = variants.reduce((total, variant) => {
+      return total + variant.countInStock;
+    }, 0);
+    // Tạo sản phẩm mới với totalCountInStock
+    const product = new Product({
+      ...productData,
+      countInStock: totalCountInStock,
+      variants, // Nếu bạn cũng muốn lưu biến thể
+    });
+
+    const data = await product.save();
     return res.status(201).json({
-      messages: "Tạo sản phẩm thành công",
+      message: "Tạo sản phẩm thành công",
       data,
     });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    return res.status(500).json({ message: error.message });
   }
 };
 
